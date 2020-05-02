@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 public class CurrencyConversionController {
 	
 	@Autowired
-	private CurrencyExchangeServiceProxy porxy;
+	private CurrencyExchangeServiceProxy proxy;
 	
 	//here used restTemplate to calle another microservice
 	@GetMapping("currency-converter/from/{from}/to/{to}/quantity/{quantity}")
@@ -39,7 +39,7 @@ public class CurrencyConversionController {
 	@GetMapping("currency-converter/feign/from/{from}/to/{to}/quantity/{quantity}")
 	public CurrencyConversionBean convertCurrencyFeign(@PathVariable String from, @PathVariable String to,@PathVariable BigDecimal quantity) {
 		
-		CurrencyConversionBean response = porxy.retrieveExchangeValue(from, to);
+		CurrencyConversionBean response = proxy.retrieveExchangeValue(from, to);
 		
 		return new CurrencyConversionBean(response.getId(),from,to,response.getConversionMultiple(),
 				quantity.multiply(response.getConversionMultiple()),response.getPort());
